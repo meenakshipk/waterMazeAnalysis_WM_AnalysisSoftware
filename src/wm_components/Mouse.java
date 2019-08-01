@@ -138,7 +138,7 @@ public class Mouse {
      *
      * @return the X position as an arraylist
      */
-    public ArrayList<Float> getXPosition() {
+    public ArrayList<Float> XPosition() {
         return XPosData;
     }
 
@@ -147,8 +147,38 @@ public class Mouse {
      *
      * @return the Y position as an arraylist
      */
-    public ArrayList<Float> getYPosition() {
+    public ArrayList<Float> YPosition() {
         return YPosData;
+    }
+
+    /**
+     * Calculate instantaneous velocity of the mouse
+     *
+     * @param XPos An arraylist of the X position of the mouse
+     * @param YPos An arraylist of the X position of the mouse
+     * @return the instantaneous velocity as an arraylist
+     */
+    public ArrayList<Float> calculateVelocity(ArrayList<Float> XPos, ArrayList<Float> YPos) {
+        ArrayList<Float> VelXcomp = new ArrayList<>();
+        ArrayList<Float> VelYcomp = new ArrayList<>();
+        ArrayList<Float> instVelocity = new ArrayList<>();
+        for (int i = 0; i < (XPos.size() - 1) && i < (YPos.size() - 1); i++) {
+            VelXcomp.add(i, (XPos.get(i + 1) - XPos.get(i)));
+            VelYcomp.add(i, (YPos.get(i + 1) - YPos.get(i)));
+            instVelocity.add(i, (float) Math.sqrt(Math.pow(VelXcomp.get(i), 2) + Math.pow(VelYcomp.get(i), 2)));
+            //rm = (float) Math.sqrt(Math.pow(px - 175, 2) + Math.pow(py - 175, 2))
+        }
+        return instVelocity;
+    }
+
+    /**
+     * Get the calculated instantaneous velocity of the mouse
+     *
+     * @return the instantaneous velocity as an arraylist
+     */
+    public ArrayList<Float> getVelocity() {
+        ArrayList<Float> instVelocity = this.calculateVelocity(XPosData, YPosData);
+        return instVelocity;
     }
 
 }

@@ -245,13 +245,14 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             int c = 0;
             float xData;
             float yData;
-            ArrayList<Float> XPos = new ArrayList();
-            ArrayList<Float> YPos = new ArrayList();
             ArrayList<Mouse> Mice = new ArrayList();
 
             for (File curFile : dataFiles) {
                 int count = 0;
                 if (curFile.exists()) {
+                    ArrayList<Float> XPos = new ArrayList();
+                    ArrayList<Float> YPos = new ArrayList();
+
                     try {
                         fReader = new FileReader(curFile);
                     } catch (FileNotFoundException ex) {
@@ -278,15 +279,17 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         count = count + 1;
                         Mouse M = new Mouse(count, trial, genBgd, drugType, XPos, YPos);
                         Mice.add(M);
-                        XPos.clear();
-                        YPos.clear();
                     } catch (IOException ex) {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
             }
-
+            System.out.println(Mice.get(0).XPosition());
+            System.out.println(Mice.get(1).XPosition());
+            System.out.println(Mice.get(0).calculateVelocity(Mice.get(0).XPosition(), Mice.get(0).YPosition()));
+            System.out.println(Mice.get(0).getVelocity());
+           
             //JOptionPane.showMessageDialog(frame, "Files selected.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
