@@ -97,4 +97,58 @@ public class Mouse {
         YPosData = YPos;
     }
 
+    /**
+     * Get the mouse ID
+     *
+     * @return ID of the mouse as an integer
+     */
+    public int ID() {
+        return ID;
+    }
+
+    /**
+     * Get the probe trial no.
+     *
+     * @return the probe trial no. as an integer
+     */
+    public int trial() {
+        return Trial;
+    }
+
+    /**
+     * Get the genotype of the mouse
+     *
+     * @return the genotype of the mouse as an integer
+     */
+    public int genotype() {
+        return GeneticBackground;
+    }
+
+    /**
+     * Get the vehicle/drug administered to the mouse
+     *
+     * @return the DrugType administered to the mouse as an integer
+     */
+    public int drugType() {
+        return DrugType;
+    }
+
+    /**
+     * Get the X position of the mouse
+     *
+     * @return the X position as an arraylist
+     */
+    public ArrayList<Float> getXPosition() {
+        return XPosData;
+    }
+
+    /**
+     * Get the Y position of the mouse
+     *
+     * @return the Y position as an arraylist
+     */
+    public ArrayList<Float> getYPosition() {
+        return YPosData;
+    }
+
 }

@@ -250,7 +250,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             ArrayList<Mouse> Mice = new ArrayList();
 
             for (File curFile : dataFiles) {
-                int counter = 0;
+                int count = 0;
                 if (curFile.exists()) {
                     try {
                         fReader = new FileReader(curFile);
@@ -258,7 +258,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
-                        int count = 0;
+
                         while ((c = fReader.read()) != -1) {
                             switch (c) {
                                 case '\t':
@@ -268,14 +268,14 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                                     break;
                                 case '\n':
                                     yData = Float.parseFloat(dataString);
-                                    XPos.add(yData);
+                                    YPos.add(yData);
                                     dataString = "";
                                     break;
                                 default:
                                     dataString += (char) c;
                             }
-                            count = count + 1;
                         }
+                        count = count + 1;
                         Mouse M = new Mouse(count, trial, genBgd, drugType, XPos, YPos);
                         Mice.add(M);
                         XPos.clear();
