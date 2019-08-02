@@ -62,7 +62,13 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         jRadioButtonDrugTypeVeh = new javax.swing.JRadioButton();
         jRadioButtonDrugTypeTest = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextFieldXCoordPt = new javax.swing.JTextField();
+        jTextFieldYCoordPt = new javax.swing.JTextField();
+        jTextFieldSizePt = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Water Maze analysis software");
@@ -76,6 +82,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Mouse info:");
 
         jLabel3.setText("Trial");
@@ -110,7 +117,18 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
         jLabel6.setText("Calculate measures?");
 
-        jLabel7.setText("Enter experiment factors");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("Platform details:");
+
+        jTextFieldXCoordPt.setText("175");
+
+        jTextFieldYCoordPt.setText("175");
+
+        jLabel9.setText("X Coord");
+
+        jLabel10.setText("Y Coord");
+
+        jLabel11.setText("Size (in px)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,6 +137,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
                     .addComponent(jRadioButtonTrialPD7)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -134,25 +153,45 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                             .addComponent(jRadioButtonGenBgdWT)
                             .addComponent(jRadioButtonGenBgdTG)))
                     .addComponent(jLabel2)
+                    .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(107, 107, 107)
-                        .addComponent(jLabel4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jRadioButtonDrugTypeVeh)
                             .addComponent(jLabel5)
                             .addComponent(jRadioButtonDrugTypeTest)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel7)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -181,11 +220,9 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton1))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -194,7 +231,13 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        //Set trial info
+//Set platform details/info:
+        Platform platform = new Platform();
+        platform.setX(Integer.parseInt(jTextFieldXCoordPt.getText()));
+        platform.setY(Integer.parseInt(jTextFieldYCoordPt.getText()));
+
+        //Set mouse details/info:
+        //Set probe trial info
         String selectedTrial = "";
         if (this.jRadioButtonTrialPD3.isSelected()) {
             trial = Trial.PD3;
@@ -285,11 +328,21 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 }
 
             }
-            System.out.println(Mice.get(0).XPosition());
-            System.out.println(Mice.get(1).XPosition());
-            System.out.println(Mice.get(0).calculateVelocity(Mice.get(0).XPosition(), Mice.get(0).YPosition()));
-            System.out.println(Mice.get(0).getVelocity());
-           
+
+            Measures newM = new Measures(Mice.get(0), platform);
+            System.out.println(Mice.get(0).XData());
+            System.out.println(Mice.get(0).YData());
+            
+            System.out.println(newM.getXPosition());
+            System.out.println(newM.getYPosition());
+            
+            System.out.println(newM.getDistance());
+            System.out.println(newM.getVelocity());
+            
+            //check these measures please. tired right now @2.8.19 23,08.
+            System.out.println(newM.getVelocityAlongPt());
+            System.out.println(newM.getVelocityPerpendicularPt());
+            System.out.println(newM.getVelocityError());
             //JOptionPane.showMessageDialog(frame, "Files selected.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -335,12 +388,15 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupTrial;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JRadioButton jRadioButtonDrugTypeTest;
     private javax.swing.JRadioButton jRadioButtonDrugTypeVeh;
     private javax.swing.JRadioButton jRadioButtonGenBgdTG;
@@ -349,5 +405,8 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonTrialPD3;
     private javax.swing.JRadioButton jRadioButtonTrialPD5;
     private javax.swing.JRadioButton jRadioButtonTrialPD7;
+    private javax.swing.JTextField jTextFieldSizePt;
+    private javax.swing.JTextField jTextFieldXCoordPt;
+    private javax.swing.JTextField jTextFieldYCoordPt;
     // End of variables declaration//GEN-END:variables
 }

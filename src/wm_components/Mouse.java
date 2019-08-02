@@ -11,10 +11,10 @@ public class Mouse {
 
     private final int ID; //mouse ID;
     private int Trial = 0;      // undefined = 0, probe day 3 = 1, probe day 5 = 2, probe day 7 = 3.
-    private int GeneticBackground = 0;      // wild type = 0, transgenic = 1.
-    private int DrugType = 0; // Vehicle = 0 or Test = 1.
-    private ArrayList<Float> XPosData;
-    private ArrayList<Float> YPosData;
+    private int GeneticBackground = 0;      // undefined = 0, wild type = 1, transgenic = 2.
+    private int DrugType = 0; // undefined =0, Vehicle = 1, Test = 2.
+    private ArrayList<Float> XPosData; //from the original data file, origin is left top corner of video
+    private ArrayList<Float> YPosData; //from the original data file, origin is left top corner of video
 
     /**
      * Default constructor Creates a new mouse
@@ -138,7 +138,7 @@ public class Mouse {
      *
      * @return the X position as an arraylist
      */
-    public ArrayList<Float> XPosition() {
+    public ArrayList<Float> XData() {
         return XPosData;
     }
 
@@ -147,38 +147,7 @@ public class Mouse {
      *
      * @return the Y position as an arraylist
      */
-    public ArrayList<Float> YPosition() {
+    public ArrayList<Float> YData() {
         return YPosData;
     }
-
-    /**
-     * Calculate instantaneous velocity of the mouse
-     *
-     * @param XPos An arraylist of the X position of the mouse
-     * @param YPos An arraylist of the X position of the mouse
-     * @return the instantaneous velocity as an arraylist
-     */
-    public ArrayList<Float> calculateVelocity(ArrayList<Float> XPos, ArrayList<Float> YPos) {
-        ArrayList<Float> VelXcomp = new ArrayList<>();
-        ArrayList<Float> VelYcomp = new ArrayList<>();
-        ArrayList<Float> instVelocity = new ArrayList<>();
-        for (int i = 0; i < (XPos.size() - 1) && i < (YPos.size() - 1); i++) {
-            VelXcomp.add(i, (XPos.get(i + 1) - XPos.get(i)));
-            VelYcomp.add(i, (YPos.get(i + 1) - YPos.get(i)));
-            instVelocity.add(i, (float) Math.sqrt(Math.pow(VelXcomp.get(i), 2) + Math.pow(VelYcomp.get(i), 2)));
-            //rm = (float) Math.sqrt(Math.pow(px - 175, 2) + Math.pow(py - 175, 2))
-        }
-        return instVelocity;
-    }
-
-    /**
-     * Get the calculated instantaneous velocity of the mouse
-     *
-     * @return the instantaneous velocity as an arraylist
-     */
-    public ArrayList<Float> getVelocity() {
-        ArrayList<Float> instVelocity = this.calculateVelocity(XPosData, YPosData);
-        return instVelocity;
-    }
-
 }
