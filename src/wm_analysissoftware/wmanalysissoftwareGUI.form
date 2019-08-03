@@ -85,7 +85,7 @@
                       <Component id="jTextFieldXCoordPt" min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <EmptySpace pref="48" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -274,17 +274,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="X Coord"/>
+        <Property name="text" type="java.lang.String" value="X Coord:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Y Coord"/>
+        <Property name="text" type="java.lang.String" value="Y Coord:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel11">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Size (in px)"/>
+        <Property name="text" type="java.lang.String" value="Size (in px):"/>
       </Properties>
     </Component>
   </SubComponents>

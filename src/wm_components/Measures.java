@@ -1,4 +1,3 @@
-
 package wm_components;
 
 import java.util.ArrayList;
@@ -54,11 +53,10 @@ public class Measures {
         for (int i = 0; i < (XPos.size() - 1) && i < (YPos.size() - 1); i++) {
             Xcap.add(i, (XPos.get(i) / RDist.get(i)));
             Ycap.add(i, (YPos.get(i) / RDist.get(i)));
-            XVelErr.add(i, (XVel.get(i) * Xcap.get(i)));
-            YVelErr.add(i, (YVel.get(i) * Ycap.get(i)));
+            XVelErr.add(i, ((XVel.get(i) * Xcap.get(i)) - XVel.get(i)));
+            YVelErr.add(i, ((YVel.get(i) * Ycap.get(i)) - YVel.get(i)));
             RVelErr.add(i, this.getMeasureMagnitude(XVelErr, YVelErr).get(i));
         }
-
     }
 
     private ArrayList<Float> XPosition(ArrayList<Float> XPosData, Platform P) {
@@ -98,7 +96,7 @@ public class Measures {
     private ArrayList<Float> getDelMeasure(ArrayList<Float> M) {
         ArrayList<Float> result = new ArrayList<>();
         for (int i = 0; i < (M.size() - 1); i++) {
-            result.add(i, M.get(i + 1) - M.get(i));
+            result.add(i, M.get(i) - M.get(i + 1));
         }
         return result;
     }

@@ -124,11 +124,11 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
         jTextFieldYCoordPt.setText("175");
 
-        jLabel9.setText("X Coord");
+        jLabel9.setText("X Coord:");
 
-        jLabel10.setText("Y Coord");
+        jLabel10.setText("Y Coord:");
 
-        jLabel11.setText("Size (in px)");
+        jLabel11.setText("Size (in px):");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,7 +176,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,22 +328,25 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 }
 
             }
-
+            
+            /*
             Measures newM = new Measures(Mice.get(0), platform);
-            System.out.println(Mice.get(0).XData());
-            System.out.println(Mice.get(0).YData());
+            System.out.printf("X -> %s \n", Mice.get(0).XData());
+            System.out.printf("Y -> %s \n",Mice.get(0).YData());
             
-            System.out.println(newM.getXPosition());
-            System.out.println(newM.getYPosition());
+            System.out.printf("PtCorrX -> %s \n", newM.getXPosition());
+            System.out.printf("PtCorrY -> %s \n", newM.getYPosition());
             
-            System.out.println(newM.getDistance());
-            System.out.println(newM.getVelocity());
+            System.out.printf("R-Dist -> %s \n", newM.getDistance());
+            System.out.printf("R-Vel -> %s \n", newM.getVelocity());
             
-            //check these measures please. tired right now @2.8.19 23,08.
-            System.out.println(newM.getVelocityAlongPt());
-            System.out.println(newM.getVelocityPerpendicularPt());
-            System.out.println(newM.getVelocityError());
-            //JOptionPane.showMessageDialog(frame, "Files selected.");
+            System.out.printf("R-VelAlongPt -> %s \n", newM.getVelocityAlongPt());
+            System.out.printf("R-VelPerpendPt -> %s \n", newM.getVelocityPerpendicularPt());
+            System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
+             */
+            
+            //Print out message
+            JOptionPane.showMessageDialog(frame, "Files selected. Please select measures to be calculated.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
