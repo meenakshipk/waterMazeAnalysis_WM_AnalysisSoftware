@@ -3,9 +3,9 @@ package wm_components;
 import java.util.ArrayList;
 
 /**
- * List of measures to be computed
+ * List of measures to be computed.
  *
- * @author Meenakshi P. created on 02.08.2019
+ * @author Meenakshi P. created on 02.08.2019. Updated on 06.08.2019
  */
 public class Measures {
 
@@ -25,6 +25,15 @@ public class Measures {
     private ArrayList<Float> YVelperpendPt;
     private ArrayList<Float> XVelErr;
     private ArrayList<Float> YVelErr;
+     */
+    /**
+     * Creates an instance of measures, which calculates distance, velocity,
+     * velocity along platform, velocity perpendicular to platform, velocity
+     * errors.
+     *
+     * @param M mouse object containing mouse x and y position data from
+     * original ascii files
+     * @param P platform object containing platform information
      */
     public Measures(Mouse M, Platform P) {
 
@@ -101,6 +110,7 @@ public class Measures {
         return result;
     }
 
+    //is this correct?
     private ArrayList<Float> normaliseMeasure(ArrayList<Float> X, ArrayList<Float> Y) {
         ArrayList<Float> result = new ArrayList<>();
         for (int i = 0; i < X.size() && i < Y.size(); i++) {
@@ -128,30 +138,55 @@ public class Measures {
         return (sum / Measure.size());
     }
 
+    /**
+     * @return x position of mouse as an arraylist
+     */
     public ArrayList<Float> getXPosition() {
         return XPos;
     }
 
+    /**
+     * @return y position of mouse as an arraylist
+     */
     public ArrayList<Float> getYPosition() {
         return YPos;
     }
 
+    /**
+     * @return distance between platform and the mouse for each frame as an
+     * arraylist
+     */
     public ArrayList<Float> getDistance() {
         return RDist;
     }
 
+    /**
+     * @return velocity of the mouse for each frame as an arraylist
+     */
     public ArrayList<Float> getVelocity() {
         return RVel;
     }
 
+    /**
+     * @return velocity component along the platform of the mouse for each frame
+     * as an arraylist
+     */
     public ArrayList<Float> getVelocityAlongPt() {
         return RVelalongPt;
     }
 
+    /**
+     * @return velocity component perpendicular to the platform of the mouse for
+     * each frame as an arraylist
+     */
     public ArrayList<Float> getVelocityPerpendicularPt() {
         return RVelperpendPt;
     }
 
+    /**
+     * @return velocity errors of the mouse for each frame
+     * as an arraylist
+     */
     public ArrayList<Float> getVelocityError() {
         return RVelErr;
     }

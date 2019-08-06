@@ -1,4 +1,4 @@
-/*
+/*s
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -231,10 +231,20 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-//Set platform details/info:
-        Platform platform = new Platform();
-        platform.setX(Integer.parseInt(jTextFieldXCoordPt.getText()));
-        platform.setY(Integer.parseInt(jTextFieldYCoordPt.getText()));
+        //Set platform details/info:
+        try {
+            if (0 < Integer.parseInt(jTextFieldXCoordPt.getText()) && 0 < Integer.parseInt(jTextFieldYCoordPt.getText()) && Integer.parseInt(jTextFieldXCoordPt.getText()) < 240 && Integer.parseInt(jTextFieldYCoordPt.getText()) < 240) {
+                Platform platform = new Platform();
+                platform.setX(Integer.parseInt(jTextFieldXCoordPt.getText()));
+                platform.setY(Integer.parseInt(jTextFieldYCoordPt.getText()));
+            } else {
+                JOptionPane.showMessageDialog(frame, "Number out of range. Please enter a number between 0-240 for platform details.", "Invalid range", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame, "Number not entered. Please enter a number between 0-240 for platform details.", "Invalid number", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         //Set mouse details/info:
         //Set probe trial info
@@ -328,7 +338,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 }
 
             }
-            
+
             /*
             Measures newM = new Measures(Mice.get(0), platform);
             System.out.printf("X -> %s \n", Mice.get(0).XData());
@@ -344,7 +354,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             System.out.printf("R-VelPerpendPt -> %s \n", newM.getVelocityPerpendicularPt());
             System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
              */
-            
             //Print out message
             JOptionPane.showMessageDialog(frame, "Files selected. Please select measures to be calculated.");
         }
