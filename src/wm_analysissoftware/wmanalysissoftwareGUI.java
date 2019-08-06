@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -232,9 +233,9 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         //Set platform details/info:
+        Platform platform = new Platform();
         try {
             if (0 < Integer.parseInt(jTextFieldXCoordPt.getText()) && 0 < Integer.parseInt(jTextFieldYCoordPt.getText()) && Integer.parseInt(jTextFieldXCoordPt.getText()) < 240 && Integer.parseInt(jTextFieldYCoordPt.getText()) < 240) {
-                Platform platform = new Platform();
                 platform.setX(Integer.parseInt(jTextFieldXCoordPt.getText()));
                 platform.setY(Integer.parseInt(jTextFieldYCoordPt.getText()));
             } else {
@@ -310,6 +311,8 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         fReader = new FileReader(curFile);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue with reading the files.", "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
+
                     }
                     try {
 
@@ -334,26 +337,31 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         Mice.add(M);
                     } catch (IOException ex) {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue with reading and writing files.", "IOException", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
             }
-
-            /*
+            /* //print results to check code works -
             Measures newM = new Measures(Mice.get(0), platform);
+
             System.out.printf("X -> %s \n", Mice.get(0).XData());
-            System.out.printf("Y -> %s \n",Mice.get(0).YData());
-            
+            System.out.printf("Y -> %s \n", Mice.get(0).YData());
+
             System.out.printf("PtCorrX -> %s \n", newM.getXPosition());
             System.out.printf("PtCorrY -> %s \n", newM.getYPosition());
-            
+
             System.out.printf("R-Dist -> %s \n", newM.getDistance());
             System.out.printf("R-Vel -> %s \n", newM.getVelocity());
-            
+
             System.out.printf("R-VelAlongPt -> %s \n", newM.getVelocityAlongPt());
             System.out.printf("R-VelPerpendPt -> %s \n", newM.getVelocityPerpendicularPt());
             System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
              */
+            Measures newM = new Measures(Mice.get(0), platform);
+            System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
+            System.out.printf("ResidenceTime -> %s \n", newM.getResidenceTime());
+
             //Print out message
             JOptionPane.showMessageDialog(frame, "Files selected. Please select measures to be calculated.");
         }

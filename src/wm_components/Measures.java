@@ -18,6 +18,8 @@ public class Measures {
     private ArrayList<Float> RVelperpendPt = new ArrayList<>();
     private ArrayList<Float> RVelErr = new ArrayList<>();
 
+    ArrayList<Integer> resTime = new ArrayList();
+
     /*
     private ArrayList<Float> XVelalongPt;
     private ArrayList<Float> YVelalongPt;
@@ -26,6 +28,12 @@ public class Measures {
     private ArrayList<Float> XVelErr;
     private ArrayList<Float> YVelErr;
      */
+    /**
+     * Default constructor. Creates an empty instance of measures object.
+     */
+    public Measures() {
+    }
+
     /**
      * Creates an instance of measures, which calculates distance, velocity,
      * velocity along platform, velocity perpendicular to platform, velocity
@@ -54,7 +62,7 @@ public class Measures {
             RVelperpendPt.add(i, (float) (RVel.get(i) * Math.sin(ThetaVel.get(i))));
         }
 
-        //velocity error - CHECK THIS/REDO
+        //velocity error
         ArrayList<Float> XVelErr = new ArrayList<>();
         ArrayList<Float> YVelErr = new ArrayList<>();
         ArrayList<Float> Xcap = new ArrayList<>();
@@ -65,6 +73,35 @@ public class Measures {
             XVelErr.add(i, ((XVel.get(i) * Xcap.get(i)) - XVel.get(i)));
             YVelErr.add(i, ((YVel.get(i) * Ycap.get(i)) - YVel.get(i)));
             RVelErr.add(i, this.getMeasureMagnitude(XVelErr, YVelErr).get(i));
+        }
+
+        //residence time
+        for (int count = 0; count <= (240 * 240); count++) {
+            resTime.add(0);
+        }
+        for (Float YPo : M.YData()) {
+            for (Float XPo : M.XData()) {
+                int arrayIdx = ((Math.round(YPo) * 240) + Math.round(XPo));
+                resTime.set(arrayIdx, (resTime.get(arrayIdx) + 1));
+            }
+        }
+    }
+
+    /**
+     * Creates an instance of measures, which calculates distance, velocity,
+     * velocity along platform, velocity perpendicular to platform, velocity
+     * errors. Stores all measures object of the arraylist of mice in an
+     * arraylist of measures.
+     *
+     * @param Mice arraylist of mouse objects
+     * @param P platform object containing platform information
+     */
+    public Measures(ArrayList<Mouse> Mice, Platform P) {
+        ArrayList<Measures> measuresList = new ArrayList<>();
+
+        for (int i = 0; i < Mice.size(); i++) {
+            Measures measuresMouse = new Measures(Mice.get(i), P);
+            measuresList.add(i, measuresMouse);
         }
     }
 
@@ -146,7 +183,7 @@ public class Measures {
     }
 
     /**
-     * @return y position of mouse as an arraylist
+     * @return y position of mouse as an arraylist of float
      */
     public ArrayList<Float> getYPosition() {
         return YPos;
@@ -154,14 +191,14 @@ public class Measures {
 
     /**
      * @return distance between platform and the mouse for each frame as an
-     * arraylist
+     * arraylist of float
      */
     public ArrayList<Float> getDistance() {
         return RDist;
     }
 
     /**
-     * @return velocity of the mouse for each frame as an arraylist
+     * @return velocity of the mouse for each frame as an arraylist of float
      */
     public ArrayList<Float> getVelocity() {
         return RVel;
@@ -169,7 +206,7 @@ public class Measures {
 
     /**
      * @return velocity component along the platform of the mouse for each frame
-     * as an arraylist
+     * as an arraylist of float
      */
     public ArrayList<Float> getVelocityAlongPt() {
         return RVelalongPt;
@@ -177,18 +214,25 @@ public class Measures {
 
     /**
      * @return velocity component perpendicular to the platform of the mouse for
-     * each frame as an arraylist
+     * each frame as an arraylist of float
      */
     public ArrayList<Float> getVelocityPerpendicularPt() {
         return RVelperpendPt;
     }
 
     /**
-     * @return velocity errors of the mouse for each frame
-     * as an arraylist
+     * @return velocity errors of the mouse for each frame as an arraylist of
+     * float
      */
     public ArrayList<Float> getVelocityError() {
         return RVelErr;
     }
 
+    /**
+     * @return residence time the mouse for each position an arraylist of
+     * integer
+     */
+    public ArrayList<Integer> getResidenceTime() {
+        return resTime;
+    }
 }
