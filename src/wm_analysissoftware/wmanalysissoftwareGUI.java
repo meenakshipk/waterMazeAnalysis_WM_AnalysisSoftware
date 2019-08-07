@@ -34,6 +34,11 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
      */
     public wmanalysissoftwareGUI() {
         initComponents();
+        //disable tabs 2-measures and 3-output
+        int n = jTabbedPane.indexOfTab("Measures");
+        jTabbedPane.setEnabledAt(n, false);
+        n = jTabbedPane.indexOfTab("Output");
+        jTabbedPane.setEnabledAt(n, false);
     }
 
     /**
@@ -48,8 +53,10 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         buttonGroupTrial = new javax.swing.ButtonGroup();
         buttonGroupGenBgd = new javax.swing.ButtonGroup();
         buttonGroupDrugType = new javax.swing.ButtonGroup();
+        jTabbedPane = new javax.swing.JTabbedPane();
+        jPanelPnM = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonSelectFiles = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -62,7 +69,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         jRadioButtonGenBgdTG = new javax.swing.JRadioButton();
         jRadioButtonDrugTypeVeh = new javax.swing.JRadioButton();
         jRadioButtonDrugTypeTest = new javax.swing.JRadioButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextFieldXCoordPt = new javax.swing.JTextField();
         jTextFieldYCoordPt = new javax.swing.JTextField();
@@ -70,16 +76,34 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldXDim = new javax.swing.JTextField();
+        jTextFieldYDim = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jPanelMeasures = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jCheckBoxRDist = new javax.swing.JCheckBox();
+        jCheckBoxRVel = new javax.swing.JCheckBox();
+        jCheckBoxRVelalongPt = new javax.swing.JCheckBox();
+        jCheckBoxRVelperpendPt = new javax.swing.JCheckBox();
+        jCheckBoxRVelErr = new javax.swing.JCheckBox();
+        jLabel13 = new javax.swing.JLabel();
+        jCheckBoxN = new javax.swing.JCheckBox();
+        jCheckBoxMean = new javax.swing.JCheckBox();
+        jCheckBoxSEM = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Water Maze analysis software");
 
         jLabel1.setText("Select files");
 
-        jButton1.setText("Browse");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSelectFiles.setText("Browse");
+        jButtonSelectFiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonSelectFilesActionPerformed(evt);
             }
         });
 
@@ -116,8 +140,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         buttonGroupDrugType.add(jRadioButtonDrugTypeTest);
         jRadioButtonDrugTypeTest.setText("Test");
 
-        jLabel6.setText("Calculate measures?");
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Platform details:");
 
@@ -131,113 +153,270 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
         jLabel11.setText("Size (in px):");
 
+        jLabel6.setText("Dimensions:");
+
+        jTextFieldXDim.setText("240");
+
+        jTextFieldYDim.setText("240");
+
+        jLabel7.setText("by");
+
+        javax.swing.GroupLayout jPanelPnMLayout = new javax.swing.GroupLayout(jPanelPnM);
+        jPanelPnM.setLayout(jPanelPnMLayout);
+        jPanelPnMLayout.setHorizontalGroup(
+            jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButtonTrialPD5)
+                    .addComponent(jRadioButtonTrialPD7)
+                    .addGroup(jPanelPnMLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonSelectFiles))
+                    .addGroup(jPanelPnMLayout.createSequentialGroup()
+                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                                .addComponent(jLabel9)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(48, 48, 48)
+                                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jRadioButtonGenBgdWT)
+                                            .addComponent(jRadioButtonGenBgdTG)
+                                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jTextFieldXDim, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                                .addComponent(jLabel11)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jRadioButtonTrialPD3)
+                                    .addComponent(jRadioButtonTrialNone)
+                                    .addComponent(jLabel3))
+                                .addGap(7, 7, 7)
+                                .addComponent(jLabel7)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldYDim, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButtonDrugTypeVeh)
+                            .addComponent(jRadioButtonDrugTypeTest)
+                            .addComponent(jLabel5))))
+                .addGap(0, 0, 0))
+            .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelPnMLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel8)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanelPnMLayout.setVerticalGroup(
+            jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(8, 8, 8)
+                .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPnMLayout.createSequentialGroup()
+                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextFieldXDim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonTrialNone)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonTrialPD3))
+                            .addGroup(jPanelPnMLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonGenBgdWT)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButtonGenBgdTG))))
+                    .addGroup(jPanelPnMLayout.createSequentialGroup()
+                        .addComponent(jTextFieldYDim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonDrugTypeVeh)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonDrugTypeTest)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonTrialPD5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonTrialPD7)
+                .addGap(27, 27, 27)
+                .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButtonSelectFiles))
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(jPanelPnMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelPnMLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel8)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane.addTab("Platform and Mice details", jPanelPnM);
+
+        jButton2.setText("Compute!");
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Measures:");
+
+        jCheckBoxRDist.setText("Distance");
+
+        jCheckBoxRVel.setText("Velocity");
+
+        jCheckBoxRVelalongPt.setText("Velocity along platform");
+
+        jCheckBoxRVelperpendPt.setText("Velocity perpendicular to platform");
+
+        jCheckBoxRVelErr.setText("Velocity errors");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setText("Statistics:");
+
+        jCheckBoxN.setText("Total number of mice");
+
+        jCheckBoxMean.setText("Mean");
+
+        jCheckBoxSEM.setText("SEM");
+
+        javax.swing.GroupLayout jPanelMeasuresLayout = new javax.swing.GroupLayout(jPanelMeasures);
+        jPanelMeasures.setLayout(jPanelMeasuresLayout);
+        jPanelMeasuresLayout.setHorizontalGroup(
+            jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMeasuresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxRVelErr)
+                    .addComponent(jButton2)
+                    .addGroup(jPanelMeasuresLayout.createSequentialGroup()
+                        .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jCheckBoxRDist)
+                            .addComponent(jCheckBoxRVel)
+                            .addComponent(jCheckBoxRVelperpendPt)
+                            .addComponent(jCheckBoxRVelalongPt))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jCheckBoxN)
+                            .addComponent(jCheckBoxMean)
+                            .addComponent(jCheckBoxSEM))))
+                .addGap(0, 0, 0))
+        );
+        jPanelMeasuresLayout.setVerticalGroup(
+            jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMeasuresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxRDist)
+                    .addComponent(jCheckBoxN))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxRVel)
+                    .addComponent(jCheckBoxMean))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxRVelalongPt)
+                    .addComponent(jCheckBoxSEM))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxRVelperpendPt)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxRVelErr)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(45, 45, 45))
+        );
+
+        jTabbedPane.addTab("Measures", jPanelMeasures);
+
+        jButton3.setText("jButton3");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jButton3)
+                .addContainerGap(303, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jButton3)
+                .addContainerGap(235, Short.MAX_VALUE))
+        );
+
+        jTabbedPane.addTab("Output", jPanel3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jRadioButtonTrialPD7)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonTrialPD3)
-                            .addComponent(jRadioButtonTrialNone)
-                            .addComponent(jRadioButtonTrialPD5))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonGenBgdWT)
-                            .addComponent(jRadioButtonGenBgdTG)))
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(107, 107, 107)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jRadioButtonDrugTypeVeh)
-                            .addComponent(jLabel5)
-                            .addComponent(jRadioButtonDrugTypeTest)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldXCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldYCoordPt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldSizePt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButtonTrialNone)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButtonTrialPD3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButtonGenBgdWT)
-                            .addComponent(jRadioButtonDrugTypeVeh))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButtonGenBgdTG)
-                            .addComponent(jRadioButtonDrugTypeTest))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonTrialPD5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButtonTrialPD7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(22, 22, 22))
+                .addContainerGap()
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonSelectFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectFilesActionPerformed
         // TODO add your handling code here:
 
         //Set platform details/info:
         Platform platform = new Platform();
         try {
-            if (0 < Integer.parseInt(jTextFieldXCoordPt.getText()) && 0 < Integer.parseInt(jTextFieldYCoordPt.getText()) && Integer.parseInt(jTextFieldXCoordPt.getText()) < 240 && Integer.parseInt(jTextFieldYCoordPt.getText()) < 240) {
+            if (0 <= Integer.parseInt(jTextFieldXCoordPt.getText())
+                    && 0 <= Integer.parseInt(jTextFieldYCoordPt.getText())
+                    && Integer.parseInt(jTextFieldXCoordPt.getText()) <= 240
+                    && Integer.parseInt(jTextFieldYCoordPt.getText()) <= 240
+                    && 0 <= Integer.parseInt(jTextFieldXDim.getText())
+                    && 0 <= Integer.parseInt(jTextFieldYDim.getText())
+                    && Integer.parseInt(jTextFieldXDim.getText()) <= 240
+                    && Integer.parseInt(jTextFieldYDim.getText()) <= 240) {
                 platform.setX(Integer.parseInt(jTextFieldXCoordPt.getText()));
                 platform.setY(Integer.parseInt(jTextFieldYCoordPt.getText()));
+                platform.setXDim(Integer.parseInt(jTextFieldXDim.getText()));
+                platform.setYDim(Integer.parseInt(jTextFieldYDim.getText()));
             } else {
                 JOptionPane.showMessageDialog(frame, "Number out of range. Please enter a number between 0-240 for platform details.", "Invalid range", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -363,9 +542,16 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             System.out.printf("ResidenceTime -> %s \n", newM.getResidenceTime());
 
             //Print out message
-            JOptionPane.showMessageDialog(frame, "Files selected. Please select measures to be calculated.");
+            JOptionPane.showMessageDialog(frame, "Files selected successfully. Please select measures to be calculated.", "Files selected", JOptionPane.INFORMATION_MESSAGE);
+
+            //enable next two tabs
+            int n = jTabbedPane.indexOfTab("Measures");
+            jTabbedPane.setEnabledAt(n, true);
+        } else if (result == JFileChooser.CANCEL_OPTION) {
+            //Print out message
+            JOptionPane.showMessageDialog(frame, "Cancelled. Please select files to proceed.", "File selection cancelled.", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonSelectFilesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -406,17 +592,33 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupDrugType;
     private javax.swing.ButtonGroup buttonGroupGenBgd;
     private javax.swing.ButtonGroup buttonGroupTrial;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonSelectFiles;
+    private javax.swing.JCheckBox jCheckBoxMean;
+    private javax.swing.JCheckBox jCheckBoxN;
+    private javax.swing.JCheckBox jCheckBoxRDist;
+    private javax.swing.JCheckBox jCheckBoxRVel;
+    private javax.swing.JCheckBox jCheckBoxRVelErr;
+    private javax.swing.JCheckBox jCheckBoxRVelalongPt;
+    private javax.swing.JCheckBox jCheckBoxRVelperpendPt;
+    private javax.swing.JCheckBox jCheckBoxSEM;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelMeasures;
+    private javax.swing.JPanel jPanelPnM;
     private javax.swing.JRadioButton jRadioButtonDrugTypeTest;
     private javax.swing.JRadioButton jRadioButtonDrugTypeVeh;
     private javax.swing.JRadioButton jRadioButtonGenBgdTG;
@@ -425,8 +627,11 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonTrialPD3;
     private javax.swing.JRadioButton jRadioButtonTrialPD5;
     private javax.swing.JRadioButton jRadioButtonTrialPD7;
+    private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField jTextFieldSizePt;
     private javax.swing.JTextField jTextFieldXCoordPt;
+    private javax.swing.JTextField jTextFieldXDim;
     private javax.swing.JTextField jTextFieldYCoordPt;
+    private javax.swing.JTextField jTextFieldYDim;
     // End of variables declaration//GEN-END:variables
 }

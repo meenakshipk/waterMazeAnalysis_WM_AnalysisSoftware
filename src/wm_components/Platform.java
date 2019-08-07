@@ -11,10 +11,11 @@ public class Platform {
     public int platformXCoord = 0;//platform location in x coordinate
     public int platformYCoord = 0;//platform location in y coordinate
     private int platformSize = 0; //size of platform
+    public int XDim = 240;//pool dimension X
+    public int YDim = 240;//pool dimension Y
 
     /**
-     * Default constructor 
-     * Creates nothing
+     * Default constructor Creates nothing
      *
      */
     public Platform() {
@@ -72,6 +73,42 @@ public class Platform {
      */
     public void setSize(int size) {
         platformSize = size;
+    }
+
+    /**
+     * Get X dimension of pool
+     *
+     * @param size enter X dimension of pool
+     */
+    public int getXDim() {
+        return XDim;
+    }
+
+    /**
+     * Set X dimension of pool
+     *
+     * @param size enter X dimension of pool
+     */
+    public void setXDim(int size) {
+        XDim = size;
+    }
+
+    /**
+     * Get Y dimension of pool
+     *
+     * @param size enter Y dimension of pool
+     */
+    public int getYDim() {
+        return YDim;
+    }
+
+    /**
+     * Set Y dimension of pool
+     *
+     * @param size enter Y dimension of pool
+     */
+    public void setYDim(int size) {
+        YDim = size;
     }
 
 }
