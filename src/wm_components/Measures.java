@@ -88,6 +88,8 @@ public class Measures {
     }
 
     /**
+     * INCORRECT CODE.
+     * 
      * Creates an instance of measures, which calculates distance, velocity,
      * velocity along platform, velocity perpendicular to platform, velocity
      * errors. Stores all measures object of the arraylist of mice in an
@@ -96,6 +98,8 @@ public class Measures {
      * @param Mice arraylist of mouse objects
      * @param P platform object containing platform information
      */
+    
+    //INCORRECT CODE
     public Measures(ArrayList<Mouse> Mice, Platform P) {
         ArrayList<Measures> measuresList = new ArrayList<>();
 

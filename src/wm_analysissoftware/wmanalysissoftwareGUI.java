@@ -7,9 +7,11 @@ package wm_analysissoftware;
 
 import wm_components.*;
 import java.awt.Component;
+import java.awt.Container;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,9 +27,13 @@ import javax.swing.JOptionPane;
 public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
     private Component frame;
+    Platform platform = new Platform();
     private int trial;
     private int genBgd;
     private int drugType;
+    private File dir;
+    File[] dataFiles = null;
+    ArrayList<Mouse> Mice = new ArrayList();
 
     /**
      * Creates new form wmanalysissoftwareGUI
@@ -36,8 +42,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         initComponents();
         //disable tabs 2-measures and 3-output
         int n = jTabbedPane.indexOfTab("Measures");
-        jTabbedPane.setEnabledAt(n, false);
-        n = jTabbedPane.indexOfTab("Output");
         jTabbedPane.setEnabledAt(n, false);
     }
 
@@ -53,6 +57,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         buttonGroupTrial = new javax.swing.ButtonGroup();
         buttonGroupGenBgd = new javax.swing.ButtonGroup();
         buttonGroupDrugType = new javax.swing.ButtonGroup();
+        buttonGroupOutputFileFormat = new javax.swing.ButtonGroup();
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanelPnM = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -81,7 +86,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         jTextFieldYDim = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jPanelMeasures = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jButtonExtract = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jCheckBoxRDist = new javax.swing.JCheckBox();
         jCheckBoxRVel = new javax.swing.JCheckBox();
@@ -92,8 +97,10 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         jCheckBoxN = new javax.swing.JCheckBox();
         jCheckBoxMean = new javax.swing.JCheckBox();
         jCheckBoxSEM = new javax.swing.JCheckBox();
-        jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jRadioButtonASCII = new javax.swing.JRadioButton();
+        jRadioButtonGraphsPlots = new javax.swing.JRadioButton();
+        jRadioButtonImages = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Water Maze analysis software");
@@ -280,7 +287,12 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
         jTabbedPane.addTab("Platform and Mice details", jPanelPnM);
 
-        jButton2.setText("Compute!");
+        jButtonExtract.setText("Extract");
+        jButtonExtract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExtractActionPerformed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Measures:");
@@ -304,6 +316,18 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
 
         jCheckBoxSEM.setText("SEM");
 
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText("Output file format:");
+
+        buttonGroupOutputFileFormat.add(jRadioButtonASCII);
+        jRadioButtonASCII.setText("ASCII files");
+
+        buttonGroupOutputFileFormat.add(jRadioButtonGraphsPlots);
+        jRadioButtonGraphsPlots.setText("Graphs or Plots?");
+
+        buttonGroupOutputFileFormat.add(jRadioButtonImages);
+        jRadioButtonImages.setText("Images?");
+
         javax.swing.GroupLayout jPanelMeasuresLayout = new javax.swing.GroupLayout(jPanelMeasures);
         jPanelMeasures.setLayout(jPanelMeasuresLayout);
         jPanelMeasuresLayout.setHorizontalGroup(
@@ -311,8 +335,10 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             .addGroup(jPanelMeasuresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButtonGraphsPlots)
+                    .addComponent(jRadioButtonASCII)
                     .addComponent(jCheckBoxRVelErr)
-                    .addComponent(jButton2)
+                    .addComponent(jButtonExtract)
                     .addGroup(jPanelMeasuresLayout.createSequentialGroup()
                         .addGroup(jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
@@ -325,8 +351,9 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                             .addComponent(jLabel13)
                             .addComponent(jCheckBoxN)
                             .addComponent(jCheckBoxMean)
-                            .addComponent(jCheckBoxSEM))))
-                .addGap(0, 0, 0))
+                            .addComponent(jCheckBoxSEM)))
+                    .addComponent(jLabel14)
+                    .addComponent(jRadioButtonImages)))
         );
         jPanelMeasuresLayout.setVerticalGroup(
             jPanelMeasuresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,33 +378,20 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 .addComponent(jCheckBoxRVelperpendPt)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxRVelErr)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(45, 45, 45))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonASCII)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonGraphsPlots)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonImages)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(jButtonExtract)
+                .addContainerGap())
         );
 
         jTabbedPane.addTab("Measures", jPanelMeasures);
-
-        jButton3.setText("jButton3");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jButton3)
-                .addContainerGap(303, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jButton3)
-                .addContainerGap(235, Short.MAX_VALUE))
-        );
-
-        jTabbedPane.addTab("Output", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -403,7 +417,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         //Set platform details/info:
-        Platform platform = new Platform();
         try {
             if (0 <= Integer.parseInt(jTextFieldXCoordPt.getText())
                     && 0 <= Integer.parseInt(jTextFieldYCoordPt.getText())
@@ -464,9 +477,9 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
         JFileChooser Fc = new JFileChooser();
         Fc.setMultiSelectionEnabled(true);
         int result = Fc.showOpenDialog(this);
-
-        File[] dataFiles = null;
-        FileReader fReader = null;                      //Reader class : Java class for reading text files (ASCII) 
+        dir = Fc.getCurrentDirectory();
+        //File[] dataFiles = null;
+        FileReader fReader = null;                      //Reader class : Java class for reading text files (ASCII)
 
         if (result == JFileChooser.APPROVE_OPTION) {
             dataFiles = Fc.getSelectedFiles();
@@ -478,7 +491,6 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             int c = 0;
             float xData;
             float yData;
-            ArrayList<Mouse> Mice = new ArrayList();
 
             for (File curFile : dataFiles) {
                 int count = 0;
@@ -540,6 +552,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             Measures newM = new Measures(Mice.get(0), platform);
             System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
             System.out.printf("ResidenceTime -> %s \n", newM.getResidenceTime());
+            System.out.printf("RDist -> %s \n", newM.getDistance());
 
             //Print out message
             JOptionPane.showMessageDialog(frame, "Files selected successfully. Please select measures to be calculated.", "Files selected", JOptionPane.INFORMATION_MESSAGE);
@@ -552,6 +565,92 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(frame, "Cancelled. Please select files to proceed.", "File selection cancelled.", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButtonSelectFilesActionPerformed
+
+    private void jButtonExtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExtractActionPerformed
+        // TODO add your handling code here:
+
+        //create measures out of arraylist of mice
+        ArrayList<Measures> measuresList = new ArrayList<>();
+        for (int i = 0; i < Mice.size(); i++) {
+            Measures NM = new Measures(Mice.get(i), platform);
+            measuresList.add(i, NM);
+        }
+
+        //
+        File fOut = new File(dir + "\\" + "Output_Distance");
+        File fOut2 = new File(dir + "\\" + "Output_Velocity");
+        File fOut3 = new File(dir + "\\" + "Output_VelocityAlongPt");
+        File fOut4 = new File(dir + "\\" + "Output_VelocityPerpendPt");
+        File fOut5 = new File(dir + "\\" + "Output_VelocityErrors");
+
+        if (fOut != null && fOut2 != null && fOut3 != null && fOut4 != null && fOut5 != null) {
+            try {
+                FileWriter fWriter = new FileWriter(fOut);
+                FileWriter fWriter2 = new FileWriter(fOut2);
+                FileWriter fWriter3 = new FileWriter(fOut3);
+                FileWriter fWriter4 = new FileWriter(fOut4);
+                FileWriter fWriter5 = new FileWriter(fOut5);
+
+                for (int i = 0; i < 600; i++) { //HARDCODED THE VALUE INTO LOOP - CLEARLY A PROBLEM WITH THE WAY I THOUGHT OF MICE AND MEASURE OBJECTS
+                    for (int j = 0; j < measuresList.size(); j++) {
+
+                        if (j < (measuresList.size() - 1)) {
+                            fWriter.write(String.valueOf(measuresList.get(j).getDistance().get(i)) + '\t');
+                            fWriter2.write(String.valueOf(measuresList.get(j).getVelocity().get(i)) + '\t');
+                            fWriter3.write(String.valueOf(measuresList.get(j).getVelocityAlongPt().get(i)) + '\t');
+                            fWriter4.write(String.valueOf(measuresList.get(j).getVelocityPerpendicularPt().get(i)) + '\t');
+                            fWriter5.write(String.valueOf(measuresList.get(j).getVelocityError().get(i)) + '\t');
+                        } else {
+                            fWriter.write(String.valueOf(measuresList.get(j).getDistance().get(i)) + '\n');
+                            fWriter2.write(String.valueOf(measuresList.get(j).getVelocity().get(i)) + '\n');
+                            fWriter3.write(String.valueOf(measuresList.get(j).getVelocityAlongPt().get(i)) + '\n');
+                            fWriter4.write(String.valueOf(measuresList.get(j).getVelocityPerpendicularPt().get(i)) + '\n');
+                            fWriter5.write(String.valueOf(measuresList.get(j).getVelocityError().get(i)) + '\n');
+                        }
+                    }
+                }
+                fWriter.close();
+                fWriter2.close();
+                fWriter3.close();
+                fWriter4.close();
+                fWriter5.close();
+
+                JOptionPane.showMessageDialog(frame, "SUCCESS.", "Writing completed", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (IOException ex) {
+                Logger.getLogger(wmanalysissoftwareGUI.class
+                        .getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(frame, "Issue with writing the files.", "IOException", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        //Output for one file, values listed horizontally instead of vertically.
+        /*
+        for (int i = 0; i < Mice.size(); i++) {
+            Measures newMeasures = new Measures(Mice.get(i), platform);
+
+            if (this.jCheckBoxRDist.isSelected()
+                    && this.jRadioButtonASCII.isSelected()) {
+
+                File fOut = new File(dir + "\\" + "Output_Distance");
+                if (fOut != null) {
+                    try {
+                        FileWriter fWriter = new FileWriter(fOut);
+                        for (int j = 0; j < newMeasures.getDistance().size(); j++) {
+                            fWriter.write(String.valueOf(newMeasures.getDistance().get(j)) + '\t');
+                        }
+                        fWriter.close();
+                        JOptionPane.showMessageDialog(frame, "Successfully written ASCII files.", "Writing completed", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException ex) {
+                        Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue with writing the files.", "IOException", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            
+        
+         */
+
+    }//GEN-LAST:event_jButtonExtractActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,16 +666,24 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(wmanalysissoftwareGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -591,9 +698,9 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupDrugType;
     private javax.swing.ButtonGroup buttonGroupGenBgd;
+    private javax.swing.ButtonGroup buttonGroupOutputFileFormat;
     private javax.swing.ButtonGroup buttonGroupTrial;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonExtract;
     private javax.swing.JButton jButtonSelectFiles;
     private javax.swing.JCheckBox jCheckBoxMean;
     private javax.swing.JCheckBox jCheckBoxN;
@@ -608,6 +715,7 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -616,13 +724,15 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelMeasures;
     private javax.swing.JPanel jPanelPnM;
+    private javax.swing.JRadioButton jRadioButtonASCII;
     private javax.swing.JRadioButton jRadioButtonDrugTypeTest;
     private javax.swing.JRadioButton jRadioButtonDrugTypeVeh;
     private javax.swing.JRadioButton jRadioButtonGenBgdTG;
     private javax.swing.JRadioButton jRadioButtonGenBgdWT;
+    private javax.swing.JRadioButton jRadioButtonGraphsPlots;
+    private javax.swing.JRadioButton jRadioButtonImages;
     private javax.swing.JRadioButton jRadioButtonTrialNone;
     private javax.swing.JRadioButton jRadioButtonTrialPD3;
     private javax.swing.JRadioButton jRadioButtonTrialPD5;
