@@ -528,32 +528,17 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
                         Mice.add(M);
                     } catch (IOException ex) {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(frame, "Issue with reading and writing files.", "IOException", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Issue with readingfiles.", "IOException", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
             }
-            /* //print results to check code works -
-            Measures newM = new Measures(Mice.get(0), platform);
-
-            System.out.printf("X -> %s \n", Mice.get(0).XData());
-            System.out.printf("Y -> %s \n", Mice.get(0).YData());
-
-            System.out.printf("PtCorrX -> %s \n", newM.getXPosition());
-            System.out.printf("PtCorrY -> %s \n", newM.getYPosition());
-
-            System.out.printf("R-Dist -> %s \n", newM.getDistance());
-            System.out.printf("R-Vel -> %s \n", newM.getVelocity());
-
-            System.out.printf("R-VelAlongPt -> %s \n", newM.getVelocityAlongPt());
-            System.out.printf("R-VelPerpendPt -> %s \n", newM.getVelocityPerpendicularPt());
-            System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
-             */
-            Measures newM = new Measures(Mice.get(0), platform);
-            System.out.printf("R-VelErr -> %s \n", newM.getVelocityError());
-            System.out.printf("ResidenceTime -> %s \n", newM.getResidenceTime());
-            System.out.printf("RDist -> %s \n", newM.getDistance());
-
+            if (Mice.size() != 0) {
+                for (int i = 0; i < Mice.size(); i++) {
+                    Mice.get(i).setXPosition(platform);
+                    Mice.get(i).setYPosition(platform);
+                }
+            }
             //Print out message
             JOptionPane.showMessageDialog(frame, "Files selected successfully. Please select measures to be calculated.", "Files selected", JOptionPane.INFORMATION_MESSAGE);
 
@@ -569,86 +554,184 @@ public class wmanalysissoftwareGUI extends javax.swing.JFrame {
     private void jButtonExtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExtractActionPerformed
         // TODO add your handling code here:
 
-        //create measures out of arraylist of mice
-        ArrayList<Measures> measuresList = new ArrayList<>();
-        for (int i = 0; i < Mice.size(); i++) {
-            Measures NM = new Measures(Mice.get(i), platform);
-            measuresList.add(i, NM);
+        //Calculate measures as per selection
+        if (this.jCheckBoxRDist.isSelected()) {
+            for (int i = 0; i < Mice.size(); i++) {
+                Mice.get(i).setDistance();
+            }
         }
-
-        //
-        File fOut = new File(dir + "\\" + "Output_Distance");
-        File fOut2 = new File(dir + "\\" + "Output_Velocity");
-        File fOut3 = new File(dir + "\\" + "Output_VelocityAlongPt");
-        File fOut4 = new File(dir + "\\" + "Output_VelocityPerpendPt");
-        File fOut5 = new File(dir + "\\" + "Output_VelocityErrors");
-
-        if (fOut != null && fOut2 != null && fOut3 != null && fOut4 != null && fOut5 != null) {
-            try {
-                FileWriter fWriter = new FileWriter(fOut);
-                FileWriter fWriter2 = new FileWriter(fOut2);
-                FileWriter fWriter3 = new FileWriter(fOut3);
-                FileWriter fWriter4 = new FileWriter(fOut4);
-                FileWriter fWriter5 = new FileWriter(fOut5);
-
-                for (int i = 0; i < 600; i++) { //HARDCODED THE VALUE INTO LOOP - CLEARLY A PROBLEM WITH THE WAY I THOUGHT OF MICE AND MEASURE OBJECTS
-                    for (int j = 0; j < measuresList.size(); j++) {
-
-                        if (j < (measuresList.size() - 1)) {
-                            fWriter.write(String.valueOf(measuresList.get(j).getDistance().get(i)) + '\t');
-                            fWriter2.write(String.valueOf(measuresList.get(j).getVelocity().get(i)) + '\t');
-                            fWriter3.write(String.valueOf(measuresList.get(j).getVelocityAlongPt().get(i)) + '\t');
-                            fWriter4.write(String.valueOf(measuresList.get(j).getVelocityPerpendicularPt().get(i)) + '\t');
-                            fWriter5.write(String.valueOf(measuresList.get(j).getVelocityError().get(i)) + '\t');
-                        } else {
-                            fWriter.write(String.valueOf(measuresList.get(j).getDistance().get(i)) + '\n');
-                            fWriter2.write(String.valueOf(measuresList.get(j).getVelocity().get(i)) + '\n');
-                            fWriter3.write(String.valueOf(measuresList.get(j).getVelocityAlongPt().get(i)) + '\n');
-                            fWriter4.write(String.valueOf(measuresList.get(j).getVelocityPerpendicularPt().get(i)) + '\n');
-                            fWriter5.write(String.valueOf(measuresList.get(j).getVelocityError().get(i)) + '\n');
-                        }
-                    }
-                }
-                fWriter.close();
-                fWriter2.close();
-                fWriter3.close();
-                fWriter4.close();
-                fWriter5.close();
-
-                JOptionPane.showMessageDialog(frame, "SUCCESS.", "Writing completed", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (IOException ex) {
-                Logger.getLogger(wmanalysissoftwareGUI.class
-                        .getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(frame, "Issue with writing the files.", "IOException", JOptionPane.ERROR_MESSAGE);
+        if (this.jCheckBoxRVel.isSelected()) {
+            for (int i = 0; i < Mice.size(); i++) {
+                Mice.get(i).setVelocity();
+            }
+        }
+        if (this.jCheckBoxRVelalongPt.isSelected()) {
+            for (int i = 0; i < Mice.size(); i++) {
+                Mice.get(i).setVelocityAlongPt();
+            }
+        }
+        if (this.jCheckBoxRVelperpendPt.isSelected()) {
+            for (int i = 0; i < Mice.size(); i++) {
+                Mice.get(i).setVelocityPerpendicularPt();
+            }
+        }
+        if (this.jCheckBoxRVelErr.isSelected()) {
+            for (int i = 0; i < Mice.size(); i++) {
+                Mice.get(i).setVelocityError();
             }
         }
 
-        //Output for one file, values listed horizontally instead of vertically.
-        /*
-        for (int i = 0; i < Mice.size(); i++) {
-            Measures newMeasures = new Measures(Mice.get(i), platform);
+        //Output ASCII files according to selection 
+        int noFilesWritten = 0;
 
-            if (this.jCheckBoxRDist.isSelected()
-                    && this.jRadioButtonASCII.isSelected()) {
-
+        if (this.jRadioButtonASCII.isSelected()) {
+            if (this.jCheckBoxRDist.isSelected()) {
                 File fOut = new File(dir + "\\" + "Output_Distance");
                 if (fOut != null) {
                     try {
                         FileWriter fWriter = new FileWriter(fOut);
-                        for (int j = 0; j < newMeasures.getDistance().size(); j++) {
-                            fWriter.write(String.valueOf(newMeasures.getDistance().get(j)) + '\t');
-                        }
+                        int i = 0;
+                        int c = 0;
+                        do {
+                            do {
+                                if (i == 0) {
+                                    fWriter.write(String.valueOf(c + 1) + '\t' + String.valueOf(Mice.get(i).getDistance().get(c)) + '\t');
+                                } else {
+                                    fWriter.write(String.valueOf(Mice.get(i).getDistance().get(c)));
+                                }
+                                i++;
+                            } while (i < Mice.size());
+                            fWriter.write('\n');
+                            c++;
+                            i = 0;
+                        } while (c < Mice.get(i).getDistance().size());
                         fWriter.close();
-                        JOptionPane.showMessageDialog(frame, "Successfully written ASCII files.", "Writing completed", JOptionPane.INFORMATION_MESSAGE);
+                        noFilesWritten = noFilesWritten + 1;
                     } catch (IOException ex) {
                         Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(frame, "Issue with writing the files.", "IOException", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Issue writing Output_Distance file.", "IOException", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            
-        
-         */
+            }
+            if (this.jCheckBoxRVel.isSelected()) {
+                File fOut = new File(dir + "\\" + "Output_Velocity");
+                if (fOut != null) {
+                    try {
+                        FileWriter fWriter = new FileWriter(fOut);
+                        int i = 0;
+                        int c = 0;
+                        do {
+                            do {
+                                if (i == 0) {
+                                    fWriter.write(String.valueOf(c + 1) + '\t' + String.valueOf(Mice.get(i).getVelocity().get(c)) + '\t');
+                                } else {
+                                    fWriter.write(String.valueOf(Mice.get(i).getVelocity().get(c)));
+                                }
+                                i++;
+                            } while (i < Mice.size());
+                            fWriter.write('\n');
+                            c++;
+                            i = 0;
+                        } while (c < Mice.get(i).getVelocity().size());
+                        fWriter.close();
+                        noFilesWritten = noFilesWritten + 1;
+                    } catch (IOException ex) {
+                        Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue writing Output_Velocity file.", "IOException", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            if (this.jCheckBoxRVelalongPt.isSelected()) {
+                File fOut = new File(dir + "\\" + "Output_VelocityalongPt");
+                if (fOut != null) {
+                    try {
+                        FileWriter fWriter = new FileWriter(fOut);
+                        int i = 0;
+                        int c = 0;
+                        do {
+                            do {
+                                if (i == 0) {
+                                    fWriter.write(String.valueOf(c + 1) + '\t' + String.valueOf(Mice.get(i).getVelocityAlongPt().get(c)) + '\t');
+                                } else {
+                                    fWriter.write(String.valueOf(Mice.get(i).getVelocityAlongPt().get(c)));
+                                }
+                                i++;
+                            } while (i < Mice.size());
+                            fWriter.write('\n');
+                            c++;
+                            i = 0;
+                        } while (c < Mice.get(i).getVelocityAlongPt().size());
+                        fWriter.close();
+                        noFilesWritten = noFilesWritten + 1;
+                    } catch (IOException ex) {
+                        Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue writing Output_VelocityalongPt file.", "IOException", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            if (this.jCheckBoxRVelperpendPt.isSelected()) {
+                File fOut = new File(dir + "\\" + "Output_VelocityperpendicularPt");
+                if (fOut != null) {
+                    try {
+                        FileWriter fWriter = new FileWriter(fOut);
+                        int i = 0;
+                        int c = 0;
+                        do {
+                            do {
+                                if (i == 0) {
+                                    fWriter.write(String.valueOf(c + 1) + '\t' + String.valueOf(Mice.get(i).getVelocityPerpendicularPt().get(c)) + '\t');
+                                } else {
+                                    fWriter.write(String.valueOf(Mice.get(i).getVelocityPerpendicularPt().get(c)));
+                                }
+                                i++;
+                            } while (i < Mice.size());
+                            fWriter.write(+'\n');
+                            c++;
+                            i = 0;
+                        } while (c < Mice.get(i).getVelocityPerpendicularPt().size());
+                        fWriter.close();
+                        noFilesWritten = noFilesWritten + 1;
+                    } catch (IOException ex) {
+                        Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue writing Output_VelocityPerpendicularPt file.", "IOException", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+            if (this.jCheckBoxRVelErr.isSelected()) {
+                File fOut = new File(dir + "\\" + "Output_VelocityError");
+                if (fOut != null) {
+                    try {
+                        FileWriter fWriter = new FileWriter(fOut);
+                        int i = 0;
+                        int c = 0;
+                        do {
+                            do {
+                                if (i == 0) {
+                                    fWriter.write(String.valueOf(c + 1) + '\t' + String.valueOf(Mice.get(i).getVelocityError().get(c)) + '\t');
+                                } else {
+                                    fWriter.write(String.valueOf(Mice.get(i).getVelocityError().get(c)));
+                                }
+                                i++;
+                            } while (i < Mice.size());
+                            fWriter.write(+'\n');
+                            c++;
+                            i = 0;
+                        } while (c < Mice.get(i).getVelocityError().size());
+                        fWriter.close();
+                        noFilesWritten = noFilesWritten + 1;
+                    } catch (IOException ex) {
+                        Logger.getLogger(wmanalysissoftwareGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(frame, "Issue writing Output_VelocityError file.", "IOException", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+        }
+        if (noFilesWritten != 0) {
+            JOptionPane.showMessageDialog(frame, "Successfully written ASCII files.", "Writing completed", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(frame, "No files written", "IO", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }//GEN-LAST:event_jButtonExtractActionPerformed
 

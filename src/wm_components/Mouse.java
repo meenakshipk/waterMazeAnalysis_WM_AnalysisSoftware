@@ -16,6 +16,17 @@ public class Mouse {
     private ArrayList<Float> XPosData; //from the original data file, origin is left top corner of video
     private ArrayList<Float> YPosData; //from the original data file, origin is left top corner of video
 
+    private final ArrayList<Float> XPos = new ArrayList<>();
+    private final ArrayList<Float> YPos = new ArrayList<>();
+
+    private ArrayList<Float> RDist = new ArrayList<>();
+    private ArrayList<Float> RVel = new ArrayList<>();
+    private final ArrayList<Float> RVelalongPt = new ArrayList<>();
+    private final ArrayList<Float> RVelperpendPt = new ArrayList<>();
+    private final ArrayList<Float> RVelErr = new ArrayList<>();
+
+    ArrayList<Integer> resTime = new ArrayList();
+
     /**
      * Default constructor Creates a new mouse
      *
@@ -102,7 +113,7 @@ public class Mouse {
      *
      * @return ID of the mouse as an integer
      */
-    public int ID() {
+    public int getID() {
         return ID;
     }
 
@@ -111,7 +122,7 @@ public class Mouse {
      *
      * @return the probe trial no. as an integer
      */
-    public int trial() {
+    public int getTrial() {
         return Trial;
     }
 
@@ -120,7 +131,7 @@ public class Mouse {
      *
      * @return the genotype of the mouse as an integer
      */
-    public int genotype() {
+    public int getGenotype() {
         return GeneticBackground;
     }
 
@@ -129,25 +140,230 @@ public class Mouse {
      *
      * @return the DrugType administered to the mouse as an integer
      */
-    public int drugType() {
+    public int getDrugType() {
         return DrugType;
     }
 
     /**
-     * Get the X position of the mouse
+     * Get the X data of the mouse from original file
      *
      * @return the X position as an arraylist
      */
-    public ArrayList<Float> XData() {
+    public ArrayList<Float> getXData() {
         return XPosData;
     }
 
     /**
-     * Get the Y position of the mouse
+     * Get the Y data of the mouse from original file
      *
      * @return the Y position as an arraylist
      */
-    public ArrayList<Float> YData() {
+    public ArrayList<Float> getYData() {
         return YPosData;
+    }
+
+    public ArrayList<Float> setXPosition(Platform P) {
+        P.getX();
+        for (int i = 0; i < (XPosData.size()); i++) {
+            XPos.add(i, (P.getX() - XPosData.get(i)));
+        }
+        return XPos;
+    }
+
+    public ArrayList<Float> setYPosition(Platform P) {
+        P.getY();
+        for (int i = 0; i < (YPosData.size()); i++) {
+            YPos.add(i, (P.getY() - YPosData.get(i)));
+        }
+        return YPos;
+    }
+
+    public ArrayList<Float> getXPosition() {
+        return XPos;
+    }
+
+    public ArrayList<Float> getYPosition() {
+        return YPos;
+    }
+
+    private ArrayList<Float> getMeasureMagnitude(ArrayList<Float> X, ArrayList<Float> Y) {
+        ArrayList<Float> result = new ArrayList<>();
+        for (int i = 0; i < X.size() && i < Y.size(); i++) {
+            result.add(i, (float) Math.sqrt(Math.pow(X.get(i), 2) + Math.pow(Y.get(i), 2)));
+        }
+        return result;
+    }
+
+    private ArrayList<Float> measureAngle(ArrayList<Float> X, ArrayList<Float> Y) {
+        ArrayList<Float> result = new ArrayList<>();
+        for (int i = 0; i < X.size() && i < Y.size(); i++) {
+            if (Y.get(i) != 0) {
+                result.add(i, (float) Math.atan2(Y.get(i), X.get(i))); //How to deal with x=0 error?
+            }
+        }
+        return result;
+    }
+
+    private ArrayList<Float> getDelMeasure(ArrayList<Float> M) {
+        ArrayList<Float> result = new ArrayList<>();
+        for (int i = 0; i < (M.size() - 1); i++) {
+            result.add(i, M.get(i) - M.get(i + 1));
+        }
+        return result;
+    }
+
+    /**
+     * @return distance between platform and the mouse for each frame as an
+     * arraylist of float
+     */
+    public ArrayList<Float> getDistance() {
+        return RDist;
+    }
+
+    /**
+     * @return velocity of the mouse for each frame as an arraylist of float
+     */
+    public ArrayList<Float> getVelocity() {
+        return RVel;
+    }
+
+    /**
+     * @return velocity component along the platform of the mouse for each frame
+     * as an arraylist of float
+     */
+    public ArrayList<Float> getVelocityAlongPt() {
+        return RVelalongPt;
+    }
+
+    /**
+     * @return velocity component perpendicular to the platform of the mouse for
+     * each frame as an arraylist of float
+     */
+    public ArrayList<Float> getVelocityPerpendicularPt() {
+        return RVelperpendPt;
+    }
+
+    /**
+     * @return velocity errors of the mouse for each frame as an arraylist of
+     * float
+     */
+    public ArrayList<Float> getVelocityError() {
+        return RVelErr;
+    }
+
+    /**
+     * @return residence time the mouse for each position an arraylist of
+     * integer
+     */
+    public ArrayList<Integer> getResidenceTime() {
+        return resTime;
+    }
+
+    /**
+     * @return distance between platform and the mouse for each frame as an
+     * arraylist of float
+     */
+    public ArrayList<Float> setDistance() {
+        RDist = this.getMeasureMagnitude(XPos, YPos);
+        return RDist;
+    }
+
+    /**
+     * @return velocity of the mouse for each frame as an arraylist of float
+     */
+    public ArrayList<Float> setVelocity() {
+        ArrayList<Float> XVel = this.getDelMeasure(XPos);
+        ArrayList<Float> YVel = this.getDelMeasure(YPos);
+        RVel = this.getMeasureMagnitude(XVel, YVel);
+        return RVel;
+    }
+
+    /**
+     * @return velocity component along the platform of the mouse for each frame
+     * as an arraylist of float
+     */
+    public ArrayList<Float> setVelocityAlongPt() {
+        RVelalongPt.clear();
+        ArrayList<Float> XVel = this.getDelMeasure(XPos);
+        ArrayList<Float> YVel = this.getDelMeasure(YPos);
+        ArrayList<Float> ThetaVel = new ArrayList<>();
+        for (int i = 0; i < (XPos.size() - 1); i++) {
+            ThetaVel.add(i, (float) Math.acos(((XVel.get(i) * XPos.get(i)) + (YVel.get(i) * YPos.get(i))) / (RDist.get(i) * RVel.get(i))));
+            RVelalongPt.add(i, (float) (RVel.get(i) * Math.cos(ThetaVel.get(i))));
+        }
+        return RVelalongPt;
+    }
+
+    /**
+     * @return velocity component perpendicular to the platform of the mouse for
+     * each frame as an arraylist of float
+     */
+    public ArrayList<Float> setVelocityPerpendicularPt() {
+        RVelperpendPt.clear();
+        ArrayList<Float> XVel = this.getDelMeasure(XPos);
+        ArrayList<Float> YVel = this.getDelMeasure(YPos);
+        ArrayList<Float> ThetaVel = new ArrayList<>();
+        for (int i = 0; i < (XPos.size() - 1); i++) {
+            ThetaVel.add(i, (float) Math.acos(((XVel.get(i) * XPos.get(i)) + (YVel.get(i) * YPos.get(i))) / (RDist.get(i) * RVel.get(i))));
+            RVelperpendPt.add(i, (float) (RVel.get(i) * Math.sin(ThetaVel.get(i))));
+        }
+        return RVelperpendPt;
+    }
+
+    /**
+     * @return velocity errors of the mouse for each frame as an arraylist of
+     * float
+     */
+    public ArrayList<Float> setVelocityError() {
+        RVelErr.clear();
+        ArrayList<Float> XVel = this.getDelMeasure(XPos);
+        ArrayList<Float> YVel = this.getDelMeasure(YPos);
+        ArrayList<Float> XVelErr = new ArrayList<>();
+        ArrayList<Float> YVelErr = new ArrayList<>();
+        ArrayList<Float> Xcap = new ArrayList<>();
+        ArrayList<Float> Ycap = new ArrayList<>();
+        for (int i = 0; i < (XPos.size() - 1) && i < (YPos.size() - 1); i++) {
+            Xcap.add(i, (XPos.get(i) / RDist.get(i)));
+            Ycap.add(i, (YPos.get(i) / RDist.get(i)));
+            XVelErr.add(i, ((XVel.get(i) * Xcap.get(i)) - XVel.get(i)));
+            YVelErr.add(i, ((YVel.get(i) * Ycap.get(i)) - YVel.get(i)));
+            RVelErr.add(i, this.getMeasureMagnitude(XVelErr, YVelErr).get(i));
+        }
+        return RVelErr;
+    }
+
+    /**
+     * @return residence time the mouse for each position an arraylist of
+     * integer
+     */
+    public ArrayList<Integer> setResidenceTime() {
+        resTime.clear();
+        for (int count = 0; count <= (240 * 240); count++) {
+            resTime.add(0);
+        }
+        for (Float YPo : XPosData) {
+            for (Float XPo : YPosData) {
+                int arrayIdx = ((Math.round(YPo) * 240) + Math.round(XPo));
+                resTime.set(arrayIdx, (resTime.get(arrayIdx) + 1));
+            }
+        }
+        return resTime;
+    }
+
+    
+        /**
+     * Get mean
+     *
+     * @param Measure a float arraylist of values
+     * @return the mean as a float
+     */
+    public float mean(ArrayList<Float> Measure) {
+        float sum = 0;
+        if (!Measure.isEmpty()) {
+            for (Float m : Measure) {
+                sum += m;
+            }
+        }
+        return (sum / Measure.size());
     }
 }
